@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشروع تفاعلي خاص</title>
+    <style>
+        :root {
+            --pink-light: #ffdee9;
+            --pink-dark: #ffafbd;
+            --accent-pink: #ff4d6d;
+            --text-color: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--pink-light), var(--pink-dark));
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .card {
+            width: 90%;
+            max-width: 400px;
+            background: rgba(45, 10, 20, 0.8);
+            border: 3px solid var(--accent-pink);
+            border-radius: 30px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            animation: popIn 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        .character-img {
+            width: 100%;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 2px solid var(--accent-pink);
+        }
+
+        .text-box {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 1px solid var(--accent-pink);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            min-height: 25px;
+        }
+
+        .btn {
+            background: var(--accent-pink);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: #ff758f;
+        }
+
+        .heart {
+            color: var(--accent-pink);
+            font-size: 60px;
+            cursor: pointer;
+            display: none;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card" id="app-card">
+
+    <img id="main-img" class="character-img" src="1.jpg">
+
+    <div id="main-text" class="text-box">كيفك حبيبتي؟</div>
+
+    <button id="main-btn" class="btn" onclick="nextStep()">الحمدلله</button>
+
+    <div id="heart-btn" class="heart" onclick="showFinal()">❤️</div>
+
+    <!-- الصوت -->
+    <audio id="bg-music">
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+</div>
+
+<script>
+let currentStep = 0;
+
+const steps = [
+    { text: "عادي اسألك سؤال؟", btn: "طبعاً", img: "2.jpg" },
+    { text: "لسه زعلانه مني؟ 😅", btn: "لا", img: "3.jpg" },
+    { text: "طيب بتحبيني ولا لا؟", btn: "ها؟ 🫣", img: "4.jpg" },
+    { text: "شنو هااا؟ بتحبيني ولا لا ؟", btn: "ما بعرف", img: "5.jpg" },
+    { text: "اذا تحبين علي دوسي على القلب 🥹", type: "heart", img: "9.jpeg" }
+];
+
+function nextStep() {
+    if (currentStep < steps.length) {
+        const data = steps[currentStep];
+
+        document.getElementById('main-img').src = data.img;
+        document.getElementById('main-text').innerText = data.text;
+
+        if (data.type === "heart") {
+            document.getElementById('main-btn').style.display = 'none';
+            document.getElementById('heart-btn').style.display = 'block';
+        } else {
+            document.getElementById('main-btn').innerText = data.btn;
+        }
+
+        currentStep++;
+    }
+}
+
+function showFinal() {
+    document.getElementById('main-img').src = "6.jpg";
+    document.getElementById('main-text').innerHTML =
+    "وانا كمان بحبك مشتاقلك وهادا اعتبريه اعتذار وياريت تقبليه يا قلبي<br>بحــــــــبك 💖";
+
+    document.getElementById('heart-btn').style.display = 'none';
+
+    const finalBtn = document.createElement('button');
+    finalBtn.className = 'btn';
+    finalBtn.innerText = "وأنا كمان بحبك يا قلبــي❤️";
+    finalBtn.onclick = () => location.reload();
+    document.getElementById('app-card').appendChild(finalBtn);
+
+    const audio = document.getElementById('bg-music');
+    audio.currentTime = 0;
+    audio.play();
+}
+</script>
+
+</body>
+</html>
