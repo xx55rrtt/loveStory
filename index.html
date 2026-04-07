@@ -40,6 +40,7 @@
             border-radius: 20px;
             margin-bottom: 20px;
             border: 2px solid var(--accent-pink);
+            transition: width 0.3s ease;
         }
 
         .text-box {
@@ -122,14 +123,23 @@ const steps = [
 function nextStep() {
     if (currentStep < steps.length) {
         const data = steps[currentStep];
+        const imgEl = document.getElementById('main-img');
+        imgEl.src = data.img;
 
-        document.getElementById('main-img').src = data.img;
+        // تصغير الصورة الثانية فقط بنسبة 70%
+        if (currentStep === 0) { 
+            imgEl.style.width = "70%";
+        } else {
+            imgEl.style.width = "100%";
+        }
+
         document.getElementById('main-text').innerText = data.text;
 
         if (data.type === "heart") {
             document.getElementById('main-btn').style.display = 'none';
             document.getElementById('heart-btn').style.display = 'block';
         } else {
+            document.getElementById('main-btn').style.display = 'block';
             document.getElementById('main-btn').innerText = data.btn;
         }
 
@@ -139,6 +149,7 @@ function nextStep() {
 
 function showFinal() {
     document.getElementById('main-img').src = "6.jpg";
+    document.getElementById('main-img').style.width = "100%"; // الصورة النهائية كاملة
     document.getElementById('main-text').innerHTML =
     "وانا كمان بحبك مشتاقلك وهادا اعتبريه اعتذار وياريت تقبليه يا قلبي<br>بحــــــــبك 💖";
 
